@@ -56,6 +56,12 @@ function Header() {
                 <li className="nav-item">
                   <Link to="/request" className="nav-link text-white d-flex align-items-center">
                     <FaHandHoldingMedical className="me-2" />
+                    Find Donors
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/request-blood" className="nav-link text-white d-flex align-items-center">
+                    <FaTint className="me-2" />
                     Request Blood
                   </Link>
                 </li>

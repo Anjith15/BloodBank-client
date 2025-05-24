@@ -7,7 +7,9 @@ import RootLayout from "./components/RootLayout"
 import Login from "./components/Login"
 import Donate from "./components/Donate"
 import Request from "./components/Request"
+import Header from "./components/Header"
 import MyDonations from "./components/MyDonations"
+import RequestBlood from './components/RequestBlood' // ✅ new import
 
 function App() {
   const browserRouterObj = createBrowserRouter([
@@ -34,6 +36,14 @@ function App() {
         {
           path: "request",
           element: <Request />,
+        },
+        {
+          path: "request-blood", // ✅ NEW route added
+          element: <RequestBlood />,
+        },
+        {
+          path: "header",
+          element: <Header />,
         },
         {
           path: "my-donations",

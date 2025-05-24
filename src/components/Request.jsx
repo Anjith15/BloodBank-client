@@ -17,7 +17,7 @@ function Request() {
     const [cityFilter, setCityFilter] = useState("");
     const [cities, setCities] = useState([]);
     
-    // Request Blood form state
+    // Request Blood form state - keeping this for future rebuilding
     const [requestForm, setRequestForm] = useState({
       requesterName: '',
       bloodGroup: '',
@@ -65,7 +65,7 @@ function Request() {
       fetchCities();
     }, []);
 
-    // Prefill form with user data if logged in
+    // Prefill form with user data if logged in - keeping for future rebuilding
     useEffect(() => {
       if (isLoggedIn && user) {
         setRequestForm(prev => ({
@@ -79,7 +79,7 @@ function Request() {
       }
     }, [isLoggedIn, user, activeTab]);
     
-    // Form change handler for Request Blood form
+    // Form change handler for Request Blood form - keeping for future rebuilding
     const handleRequestFormChange = (e) => {
       const { name, value } = e.target;
       setRequestForm(prev => ({
@@ -129,80 +129,10 @@ function Request() {
         }
     }
     
-    // Handle blood request submission
+    // Handle blood request submission - keeping the function signature for future rebuilding
     const handleRequestSubmit = async (e) => {
       e.preventDefault();
-      
-      // Validate form
-      if (!requestForm.requesterName || !requestForm.bloodGroup || !requestForm.city || !requestForm.state 
-          || !requestForm.contactNumber || !requestForm.contactEmail) {
-        toast.error("Please fill all required fields");
-        return;
-      }
-      
-      try {
-        setIsLoading(true);
-        
-        // Get token from localStorage
-        const token = localStorage.getItem('token');
-        
-        // Check if user is logged in
-        if (!token) {
-          toast.error("You must be logged in to make a blood request");
-          setIsLoading(false);
-          return;
-        }
-        
-        // Create request
-        const response = await axios.post(
-          `${API_BASE_URL}/request-api/create`,
-          requestForm,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          }
-        );
-        
-        if (response.data && !response.data.error) {
-          const { notifiedDonors } = response.data.payload._doc || {};
-          
-          toast.success("Blood request created successfully!");
-          
-          if (notifiedDonors && notifiedDonors > 0) {
-            toast.info(`${notifiedDonors} matching donors have been notified via email`);
-          } else {
-            toast.info("No matching donors were found to notify");
-          }
-          
-          // Reset form
-          setRequestForm({
-            requesterName: user?.username || '',
-            bloodGroup: '',
-            units: 1,
-            location: '',
-            city: user?.city || '',
-            state: user?.state || '',
-            contactNumber: user?.phoneNumber || '',
-            contactEmail: user?.email || '',
-            urgency: 'Within 24 hours',
-            hospital: '',
-            additionalInfo: ''
-          });
-          
-          // Switch to search tab
-          setActiveTab('search');
-        }
-      } catch (error) {
-        console.error("Request creation error:", error);
-        if (error.response && error.response.data && error.response.data.message) {
-          toast.error(error.response.data.message);
-        } else {
-          toast.error("Error creating blood request. Please try again.");
-        }
-      } finally {
-        setIsLoading(false);
-      }
+      toast.info("This feature is currently being rebuilt.");
     };
       
     return (
@@ -213,7 +143,7 @@ function Request() {
           <p className="text-center text-muted">Find donors or create blood requests in your area</p>
         </div>
         
-        {/* Tab Navigation */}
+        {/* Tab Navigation - keeping only "Find Donors" tab active */}
         <div className="d-flex justify-content-center mb-4">
           <ul className="nav nav-pills">
             <li className="nav-item me-2">
@@ -232,6 +162,7 @@ function Request() {
                 Find Donors
               </button>
             </li>
+            {/* Commented out Request Blood tab - will be rebuilt later
             <li className="nav-item">
               <button 
                 className={`nav-link ${activeTab === 'create' ? 'active' : ''}`}
@@ -254,6 +185,7 @@ function Request() {
                 Request Blood
               </button>
             </li>
+            */}
           </ul>
         </div>
         
@@ -336,6 +268,7 @@ function Request() {
                 <div className="alert alert-info text-center" role="alert">
                   <FaInfoCircle className="me-2" />
                   No donors found with {bloodGroup} blood group {cityFilter && `in ${cityFilter}`}.
+                  {/* Commenting out button to create blood request
                   <br />
                   <button 
                     className="btn btn-sm mt-2" 
@@ -355,6 +288,7 @@ function Request() {
                     <FaTint className="me-1" />
                     Create a blood request
                   </button>
+                  */}
                 </div>
               )}
               
@@ -427,7 +361,9 @@ function Request() {
           </div>
         )}
         
-        {/* Request Blood Tab Content */}
+        {/* Request Blood Tab Content - commented out */}
+        {/* // Request Blood feature to be rebuilt using Nodemailer */}
+        {/* 
         {activeTab === 'create' && (
           <div className="row">
             <div className="col-md-8 mx-auto">
@@ -655,6 +591,7 @@ function Request() {
             </div>
           </div>
         )}
+        */}
       </div>
     );
 }
